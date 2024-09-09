@@ -62,18 +62,20 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: messege.isUser
-                                ? Colors.blue[700]
-                                : Colors.grey[300],
-                            borderRadius: messege.isUser
-                                ? BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20))
-                                : BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20))),
+                          color: messege.isUser
+                              ? Colors.blue[700]
+                              : Colors.grey[300],
+                          borderRadius: messege.isUser
+                              ? BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20))
+                              : BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                ),
+                        ),
                         child: Text(
                           messege.text,
                           style: TextStyle(
@@ -86,8 +88,11 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
+
+            // text input
             Padding(
-              padding: EdgeInsets.all(16),
+              padding:
+                  EdgeInsets.only(bottom: 32, top: 16, left: 16, right: 16),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,

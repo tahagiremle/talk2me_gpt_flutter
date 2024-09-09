@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:talk2me_gpt_flutter/onboarding.dart';
 
 import 'home_page.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: Onboarding(),
     );
   }
 }
