@@ -24,10 +24,12 @@ class Onboarding extends StatelessWidget {
                 ),
                 SizedBox(width: 16),
                 Text(
-                  "Using this application, you can ask the AI assistant questions and receive detailed articles.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
-                )
+                    "Using this application, you can ask the AI assistant questions and receive detailed articles.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ))
               ],
             ),
             SizedBox(height: 32),

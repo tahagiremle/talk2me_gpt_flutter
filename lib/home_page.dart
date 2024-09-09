@@ -21,10 +21,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
-          elevation: 10,
+          elevation: 1,
           centerTitle: false,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     'Talk2Me',
-                    style: TextStyle(color: Colors.black),
+                    style: Theme.of(context).textTheme.titleLarge,
                   )
                 ],
               ),
@@ -63,8 +64,8 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: messege.isUser
-                              ? Colors.blue[700]
-                              : Colors.grey[300],
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.secondary,
                           borderRadius: messege.isUser
                               ? BorderRadius.only(
                                   topLeft: Radius.circular(20),
@@ -76,12 +77,10 @@ class _HomePageState extends State<HomePage> {
                                   bottomLeft: Radius.circular(20),
                                 ),
                         ),
-                        child: Text(
-                          messege.text,
-                          style: TextStyle(
-                              color:
-                                  messege.isUser ? Colors.white : Colors.black),
-                        ),
+                        child: Text(messege.text,
+                            style: messege.isUser
+                                ? Theme.of(context).textTheme.bodyMedium
+                                : Theme.of(context).textTheme.bodySmall),
                       ),
                     ),
                   );
@@ -109,8 +108,13 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: TextField(
                         controller: _controller,
+                        style: Theme.of(context).textTheme.titleSmall,
                         decoration: InputDecoration(
                             hintText: "Write your message",
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(color: Colors.grey),
                             border: InputBorder.none,
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 20)),
