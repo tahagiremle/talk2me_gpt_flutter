@@ -22,8 +22,8 @@ class Onboarding extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.blue[700]),
                 ),
-                SizedBox(width: 16),
-                Text(
+                const SizedBox(width: 16),
+                const Text(
                     "Using this application, you can ask the AI assistant questions and receive detailed articles.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -32,15 +32,15 @@ class Onboarding extends StatelessWidget {
                     ))
               ],
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Image.asset('assets/onboard.png'),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => const HomePage(),
                     ),
                     (route) => false,
                   );
@@ -51,8 +51,8 @@ class Onboarding extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     padding:
-                        EdgeInsets.symmetric(vertical: 16, horizontal: 32)),
-                child: Row(
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 32)),
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(

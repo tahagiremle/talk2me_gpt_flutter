@@ -19,7 +19,7 @@ ThemeData lightMode = ThemeData(
       primary: Color(0xff3369FF),
       secondary: Color(0xffEEEEEE)),
   inputDecorationTheme:
-      InputDecorationTheme(labelStyle: TextStyle(color: Colors.blue)),
+      const InputDecorationTheme(labelStyle: TextStyle(color: Colors.blue)),
   textTheme: const TextTheme(
       titleLarge: TextStyle(
         color: Color(0xff000000),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:talk2me_gpt_flutter/themeNotifier.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:talk2me_gpt_flutter/theme_notifier.dart';
 import 'message.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,13 +13,33 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  TextEditingController _controller = TextEditingController();
-  final List<Message> _message = [
-    Message(text: "Hi", isUser: true),
-    Message(text: "Hello", isUser: false),
-    Message(text: "what's up", isUser: true),
-    Message(text: "Bla bla", isUser: false),
-  ];
+  final TextEditingController _controller = TextEditingController();
+  final List<Message> _message = [];
+
+  bool _isLoading = false;
+
+  callGeminiModel() async {
+    try {
+      if (_controller.text.isNotEmpty) {
+        _message.add(Message(text: _controller.text, isUser: true));
+        _isLoading = true;
+      }
+      final model = GenerativeModel(
+          model: 'gemini-pro', apiKey: dotenv.env['GOOGLE_API_KEY']!);
+      final prompt = _controller.text.trim();
+      final content = [Content.text(prompt)];
+      final response = await model.generateContent(content);
+
+      setState(() {
+        _isLoading = false;
+        _message.add(Message(text: response.text!, isUser: false));
+      });
+
+      _controller.clear();
+    } catch (e) {
+      print("Error : $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +57,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               Row(
                 children: [
                   Image.asset('assets/gpt-robot.png'),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
@@ -46,11 +68,11 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
               GestureDetector(
                 child: (currentTheme == ThemeMode.dark)
-                    ? Icon(
+                    ? const Icon(
                         Icons.light_mode,
                         color: Colors.white,
                       )
-                    : Icon(
+                    : const Icon(
                         Icons.dark_mode,
                         color: Colors.black,
                       ),
@@ -74,17 +96,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: messege.isUser
                               ? Theme.of(context).colorScheme.primary
                               : Theme.of(context).colorScheme.secondary,
                           borderRadius: messege.isUser
-                              ? BorderRadius.only(
+                              ? const BorderRadius.only(
                                   topLeft: Radius.circular(20),
                                   bottomRight: Radius.circular(20),
                                   bottomLeft: Radius.circular(20))
-                              : BorderRadius.only(
+                              : const BorderRadius.only(
                                   topRight: Radius.circular(20),
                                   bottomRight: Radius.circular(20),
                                   bottomLeft: Radius.circular(20),
@@ -104,7 +126,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             // text input
             Padding(
               padding:
-                  EdgeInsets.only(bottom: 32, top: 16, left: 16, right: 16),
+                  const EdgeInsets.only(bottom: 32, top: 16, left: 16, right: 16),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -114,7 +136,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 5,
-                          offset: Offset(0, 3)),
+                          offset: const Offset(0, 3)),
                     ]),
                 child: Row(
                   children: [
@@ -130,17 +152,26 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 .copyWith(color: Colors.grey),
                             border: InputBorder.none,
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 20)),
+                                const EdgeInsets.symmetric(horizontal: 20)),
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: GestureDetector(
-                        child: Image.asset('assets/send.png'),
-                        onTap: () {},
-                      ),
-                    )
+                    const SizedBox(width: 8),
+                    _isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: GestureDetector(
+                              onTap: callGeminiModel,
+                              child: Image.asset('assets/send.png'),
+                            ),
+                          )
                   ],
                 ),
               ),

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:talk2me_gpt_flutter/onboarding.dart';
-import 'package:talk2me_gpt_flutter/themeNotifier.dart';
+import 'package:talk2me_gpt_flutter/theme_notifier.dart';
 import 'package:talk2me_gpt_flutter/themes.dart';
 
-import 'home_page.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: "assets/.env");
+
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: MyApp(),
     ),
   );
@@ -25,7 +27,7 @@ class MyApp extends ConsumerWidget {
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: themeMode,
-      home: Onboarding(),
+      home: const Onboarding(),
     );
   }
 }
