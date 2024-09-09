@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-
+import 'package:talk2me_gpt_flutter/themeNotifier.dart';
 import 'message.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   TextEditingController _controller = TextEditingController();
   final List<Message> _message = [
     Message(text: "Hi", isUser: true),
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.watch(themeProvider);
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
@@ -41,9 +44,19 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
               ),
-              Image.asset(
-                'assets/volume-high.png',
-                color: Colors.blue[700],
+              GestureDetector(
+                child: (currentTheme == ThemeMode.dark)
+                    ? Icon(
+                        Icons.light_mode,
+                        color: Colors.white,
+                      )
+                    : Icon(
+                        Icons.dark_mode,
+                        color: Colors.black,
+                      ),
+                onTap: () {
+                  ref.read(themeProvider.notifier).toggleTheme();
+                },
               )
             ],
           ),
