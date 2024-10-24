@@ -5,7 +5,6 @@ import 'package:talk2me_gpt_flutter/onboarding.dart';
 import 'package:talk2me_gpt_flutter/theme_notifier.dart';
 import 'package:talk2me_gpt_flutter/themes.dart';
 
-
 Future<void> main() async {
   await dotenv.load(fileName: "assets/.env");
 
@@ -22,8 +21,8 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
-
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: themeMode,
